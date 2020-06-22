@@ -46,7 +46,7 @@
                                      @if (  $Propriete->etat == "Non Verifie" || $Propriete->etat == "Refusee")
                                      <a href="{{ route('Addfacture',['id'=>$Propriete->id])}}" class="btn btn-secondary">valider propriete</a>
                                      @elseif($Propriete->etat == "Verifie")
-                                     <a href="" class="btn btn-info">venter</a>
+                                     <a href="/telephone/{{ $Propriete->telephone->id }}/contrat/ajouter" class="btn btn-info">venter</a>
                                      <a onclick="return confirm('Votre telephone a ete vraiment voler')" href="{{ route('voler',['id' => $Propriete->id_telephone ])}}" class="btn btn-danger">declarer comme volé</a>
                                      @else
                                      Aucun Action permis

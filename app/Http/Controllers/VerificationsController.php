@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Verification;
 use App\Facture;
 use App\Propriete;
+use App\Proprietaire;
+use App\Contratachat;
 
 class VerificationsController extends Controller
 {
@@ -22,6 +24,30 @@ class VerificationsController extends Controller
             $verification->etat = "Verifie";
             $verification->update();
             return redirect('/home');
+        }elseif ($verification->type == "Achat"){
+            $contrat = Contratachat::find($verification->idtache);
+
+            $propriete = Propriete::where('id_proprietaire',$contrat->idvendeur)
+                                  ->where('id_telephone',$contrat->idtelephone)->get();
+            $propriete[0]->delete();
+
+
+            $proprietaire = new Proprietaire();
+            $proprietaire->id_proprietaire = $contrat->idacheteur;
+            $proprietaire->save();
+
+
+            $propriete = new Propriete();
+            $propriete->id_proprietaire =$proprietaire->id;
+            $propriete->id_telephone =$contrat->idtelephone;
+            $propriete->etat = "Verifie";
+            $propriete->save();
+
+            $verification->etat = "Verifie";
+            $verification->update();
+           // return redirect('/home');
+
+            
         }
 
     }
@@ -37,6 +63,8 @@ class VerificationsController extends Controller
             $verification->update();
             return redirect('/home');
 
+
+        }elseif ($verification->type == "Achat"){
 
         }
 

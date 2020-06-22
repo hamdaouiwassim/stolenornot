@@ -15,6 +15,11 @@ class CreateContratachatsTable extends Migration
     {
         Schema::create('contratachats', function (Blueprint $table) {
             $table->id();
+            $table->string("document");
+            $table->integer("idacheteur");
+            $table->integer("idvendeur");
+            $table->integer("idtelephone");
+            $table->string("etat");
             $table->timestamps();
         });
     }
